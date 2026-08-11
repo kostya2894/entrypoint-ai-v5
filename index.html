@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>EntryPoint AI V5</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#07110d;color:#eef8f1;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+.wrap{max-width:650px;margin:auto;padding:18px 14px 36px}.brand{font-size:29px;font-weight:900}.sub{color:#91a79b;font-size:13px;margin:3px 0 15px}
+.card{background:#0d2118;border:1px solid #234333;border-radius:19px;padding:15px;margin:12px 0}.row{display:flex;gap:9px}.row>*{flex:1}
+label{font-size:11px;color:#91a79b;display:block;margin-bottom:5px}select,button,.file{width:100%;background:#091a12;border:1px solid #294a39;color:#fff;border-radius:11px;padding:12px;font-size:16px}.file{text-align:center;display:block;cursor:pointer}input[type=file]{display:none}button{background:#43d17a;color:#052012;border:0;font-weight:900;margin-top:10px}
+.preview{width:100%;border-radius:13px;margin-top:12px;display:block;max-height:500px;object-fit:contain;background:#050b08}.signal{text-align:center;padding:8px}.arrow{font-size:58px;line-height:1;font-weight:900}.buy{color:#43d17a}.sell{color:#ff6670}.none{color:#ffd166}.sig{font-size:29px;font-weight:900}.conf{font-size:18px;margin-top:4px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.m{background:#091911;border-radius:13px;padding:11px}.m span{font-size:10px;color:#91a79b}.m b{display:block;font-size:17px;margin-top:3px}.status,.note{font-size:12px;color:#91a79b;line-height:1.5}.warn{color:#c7d6cf}.hidden{display:none}
+</style>
+</head>
+<body><div class="wrap">
+<div class="brand">EntryPoint AI V5</div>
+<div class="sub">Screenshot Analyzer • iPhone / Safari</div>
+
+<div class="card">
+<div class="row">
+<div><label>ПАРА</label><select id="pair"><option>CAD/JPY OTC</option><option>EUR/USD OTC</option><option>GBP/USD OTC</option><option>USD/JPY OTC</option><option>AUD/USD OTC</option><option>USD/CAD OTC</option><option>EUR/JPY OTC</option><option>GBP/JPY OTC</option></select></div>
+<div><label>TF</label><select id="tf"><option>H1</option><option>M15</option><option>M5</option></select></div>
+</div>
+<label class="file" for="photo" style="margin-top:10px">📷 ЗАГРУЗИТЬ СКРИН ГРАФИКА</label>
+<input id="photo" type="file" accept="image/*">
+<img id="preview" class="preview hidden">
+<button id="analyze" disabled>АНАЛИЗИРОВАТЬ</button>
+<div id="status" class="status">Выбери скриншот Pocket Option.</div>
+</div>
+
+<div class="card">
+<div class="signal"><div id="arrow" class="arrow none">—</div><div id="sig" class="sig">NO TRADE</div><div id="conf" class="conf">Confidence: —</div></div>
+<div class="grid">
+<div class="m"><span>ТРЕНД</span><b id="trend">—</b></div>
+<div class="m"><span>ИМПУЛЬС</span><b id="mom">—</b></div>
+<div class="m"><span>ЗЕЛЁНЫЕ СВЕЧИ</span><b id="green">—</b></div>
+<div class="m"><span>КРАСНЫЕ СВЕЧИ</span><b id="red">—</b></div>
+<div class="m"><span>ОЦЕНКА ГРАФИКА</span><b id="score">—</b></div>
+<div class="m"><span>НАДЁЖНОСТЬ OCR</span><b id="quality">—</b></div>
+</div>
+</div>
+
+<div class="card note warn">
+<b>Важно.</b> V5 анализирует изображение локально в браузере. Он не извлекает точные OHLC-значения из пикселей и не утверждает, что Confidence равен вероятности выигрыша. Для реального backtest нужны точные свечные данные. Результат — аналитический сигнал, а не гарантия сделки.
+</div>
+<div class="card note">
+<b>Как использовать:</b> загрузи скрин так, чтобы было видно максимум свечей и минимум панели покупки. Для лучшего результата используй одинаковый масштаб графика. После нескольких скриншотов можно сравнивать сигналы и фактический результат следующей свечи.
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let img=null;
+
+$("photo").onchange=e=>{
+ const f=e.target.files?.[0]; if(!f)return;
+ img=new Image(); img.onload=()=>{
+   $("preview").src=img.src;$("preview").classList.remove("hidden");$("analyze").disabled=false;
+   $("status").textContent="Скрин загружен. Нажми «Анализировать».";
+ }; img.src=URL.createObjectURL(f);
+};
+
+function analyzeImage(){
+ if(!img)return;
+ const maxW=900, scale=Math.min(1,maxW/img.naturalWidth), w=Math.round(img.naturalWidth*scale), h=Math.round(img.naturalHeight*scale);
+ const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.drawImage(img,0,0,w,h);
+ const data=x.getImageData(0,0,w,h).data;
+ // Estimate candle colors from the central chart region. Pocket Option's green/red candles are deliberately separated by hue.
+ let green=0,red=0, samples=0;
+ for(let y=Math.floor(h*.18);y<Math.floor(h*.78);y+=2){
+   for(let xx=0;xx<w;xx+=2){
+     const i=(y*w+xx)*4,r=data[i],g=data[i+1],b=data[i+2];
+     if(g>r*1.25 && g>b*1.05 && g>80){green++;samples++}
+     else if(r>g*1.35 && r>b*1.2 && r>100){red++;samples++}
+   }
+ }
+ const total=green+red, gp=total?green/total:.5;
+ // Color area is a weak visual proxy; confidence is intentionally capped.
+ let bias=(gp-.5)*2;
+ const signal=bias>.16?"BUY":bias<-.16?"SELL":"NO TRADE";
+ const conf=Math.min(.82, .55+Math.abs(bias)*.55);
+ const quality=Math.max(.35,Math.min(.95,total/Math.max(1,samples*.06)));
+ $("sig").textContent=signal;$("arrow").textContent=signal==="BUY"?"↑":signal==="SELL"?"↓":"—";
+ $("arrow").className="arrow "+(signal==="BUY"?"buy":signal==="SELL"?"sell":"none");
+ $("conf").textContent="Confidence: "+Math.round(conf*100)+"%";
+ $("trend").textContent=bias>.08?"ВОСХОДЯЩИЙ":bias<-.08?"НИСХОДЯЩИЙ":"БОКОВИК";
+ $("mom").textContent=Math.abs(bias)>.28?"СИЛЬНЫЙ":Math.abs(bias)>.12?"СРЕДНИЙ":"СЛАБЫЙ";
+ $("green").textContent=Math.round(gp*100)+"%";$("red").textContent=Math.round((1-gp)*100)+"%";
+ $("score").textContent=signal==="NO TRADE"?"НЕ ВХОДИТЬ":(signal+" / "+Math.round(conf*100)+"%");
+ $("quality").textContent=Math.round(quality*100)+"%";
+ $("status").textContent="Анализ завершён локально: "+new Date().toLocaleTimeString();
+}
+$("analyze").onclick=analyzeImage;
+</script>
+</body></html>

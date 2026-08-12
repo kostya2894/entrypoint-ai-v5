@@ -1,64 +1,84 @@
 <!doctype html>
-<html lang="ru"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#08110e">
-<title>EntryPoint AI V7</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#06100c;color:#eef8f1;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}.wrap{max-width:720px;margin:auto;padding:18px 14px 45px}.brand{font-size:29px;font-weight:900}.sub{color:#8fa79a;font-size:13px;margin:3px 0 15px}.card{background:#0d2118;border:1px solid #234333;border-radius:19px;padding:15px;margin:12px 0}.row{display:flex;gap:9px}.row>*{flex:1}label{font-size:11px;color:#91a79b;display:block;margin-bottom:5px}select,button,.file,input[type=number]{width:100%;background:#091a12;border:1px solid #294a39;color:#fff;border-radius:11px;padding:12px;font-size:16px}.file{text-align:center;display:block;cursor:pointer}input[type=file]{display:none}button{background:#43d17a;color:#052012;border:0;font-weight:900;margin-top:10px}.secondary{background:#12271d;color:#d8e9df;border:1px solid #315440}.danger{background:#32151a;color:#ff9da5;border:1px solid #633038}.small{font-size:13px;padding:9px}.preview{width:100%;border-radius:13px;margin-top:12px;display:block;max-height:500px;object-fit:contain;background:#050b08}.signal{text-align:center;padding:8px}.arrow{font-size:58px;line-height:1;font-weight:900}.buy{color:#43d17a}.sell{color:#ff6670}.none{color:#ffd166}.sig{font-size:29px;font-weight:900}.conf{font-size:18px;margin-top:4px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.m{background:#091911;border-radius:13px;padding:11px}.m span{font-size:10px;color:#91a79b}.m b{display:block;font-size:17px;margin-top:3px}.status,.note{font-size:12px;color:#91a79b;line-height:1.5}.hidden{display:none}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#091911;border-radius:13px;padding:12px;text-align:center}.stat b{font-size:21px;display:block}.stat span{font-size:10px;color:#91a79b}.rate{font-size:28px!important}.table{overflow:auto;border-radius:12px}.tr{display:grid;grid-template-columns:1.7fr .65fr .65fr .85fr .75fr;min-width:540px;border-bottom:1px solid #1d392b;padding:10px 4px;align-items:center}.tr.head{color:#8fa79a;font-size:10px;text-transform:uppercase}.tr b{font-size:13px}.win{color:#43d17a}.loss{color:#ff6670}.pending{color:#ffd166}.entry{background:#091911;border-radius:12px;padding:11px;margin:8px 0}.entrytop{display:flex;justify-content:space-between;gap:8px}.entrymeta{font-size:11px;color:#8fa79a;margin-top:4px}.entryactions{display:flex;gap:7px;margin-top:9px}.entryactions button{margin:0}.empty{text-align:center;color:#789082;padding:18px 5px}.toolbar{display:flex;gap:8px}.toolbar button{margin:0}.pill{display:inline-block;padding:5px 8px;border-radius:999px;background:#132b20;font-size:11px}.help{margin-top:9px}.foot{font-size:11px;color:#698073;line-height:1.5;text-align:center;margin-top:18px}.learn{background:#0a1c14;border:1px solid #28513c;border-radius:14px;padding:12px;margin-top:12px}.learn b{font-size:17px}.learnline{display:flex;justify-content:space-between;margin:6px 0;font-size:12px;color:#a8bdb1}.bar{height:8px;background:#183024;border-radius:99px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;background:#43d17a;border-radius:99px}.filters{display:flex;gap:8px;margin:8px 0}.filters select{font-size:13px;padding:9px}.pager{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px}.pager button{width:auto;min-width:90px;margin:0}.dangerText{color:#ff9da5}.okText{color:#43d17a}@media(max-width:520px){.row{gap:6px}.stats{grid-template-columns:1fr 1fr}.filters{flex-direction:column}.toolbar{flex-direction:column}.tr{grid-template-columns:1.6fr .6fr .6fr .8fr .7fr;min-width:500px}}
-</style></head><body><div class="wrap">
-<div class="brand">EntryPoint AI V7</div><div class="sub">Adaptive Screenshot Analyzer • накопительный журнал • обучение по WIN/LOSS • iPhone / Safari</div>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Pocket Signal V7</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<header><h1>POCKET SIGNAL V7</h1><span id="status" class="pill">● OFFLINE</span></header>
 
-<div class="card"><div class="row">
-<div><label>ПАРА OTC</label><select id="pair"></select></div>
-<div><label>TF</label><select id="tf"><option>M1</option><option>M5</option><option>M15</option><option>H1</option></select></div>
+<main>
+<section id="screen-signal" class="screen active">
+<div class="card hero">
+<div class="muted">САМЫЙ СИЛЬНЫЙ СИГНАЛ</div>
+<div id="pair" class="pair">—</div>
+<div id="direction" class="direction">NO TRADE</div>
+<div id="score" class="score">—</div>
+<div class="muted">Signal Score</div>
+<div id="reason" class="reason">Введите API key Twelve Data и запустите сканирование.</div>
+<div id="indicators" class="indicators"></div>
+<div class="actions"><button id="scanBtn">СКАНИРОВАТЬ</button><button id="autoBtn" class="secondary">АВТОСКАН: ВКЛ</button></div>
 </div>
-<label style="margin-top:10px">СКРИНШОТ</label><label class="file">📷 Выбрать скриншот<input id="photo" type="file" accept="image/*"></label>
-<img id="preview" class="preview hidden"><button id="analyze" disabled>АНАЛИЗИРОВАТЬ</button>
-<div id="status" class="status" style="margin-top:8px">Выбери OTC-пару и загрузи скриншот.</div></div>
 
-<div class="card"><div class="signal"><div id="arrow" class="arrow none">—</div><div id="sig" class="sig">NO TRADE</div><div id="conf" class="conf">Confidence: —</div></div>
-<div class="grid"><div class="m"><span>ТРЕНД</span><b id="trend">—</b></div><div class="m"><span>ИМПУЛЬС</span><b id="mom">—</b></div><div class="m"><span>ЗЕЛЁНЫЕ</span><b id="green">—</b></div><div class="m"><span>КРАСНЫЕ</span><b id="red">—</b></div><div class="m"><span>КАЧЕСТВО</span><b id="quality">—</b></div><div class="m"><span>ИТОГ</span><b id="score">—</b></div></div>
-<div id="learningBox" class="learn"><b>🧠 Адаптивное обучение</b><div class="learnline"><span>История для пары/TF/направления</span><strong id="learnSample">0 сделок</strong></div><div class="learnline"><span>Исторический WIN RATE</span><strong id="learnRate">—</strong></div><div class="learnline"><span>Скорректированный Confidence</span><strong id="learnConf">—</strong></div><div class="bar"><i id="learnBar" style="width:0%"></i></div><div class="note" style="margin-top:8px">V7 не является нейросетью: она статистически калибрует сигнал по накопленным WIN/LOSS и постепенно уменьшает влияние маленьких выборок.</div></div>
-<button id="saveSignal" disabled>СОХРАНИТЬ СИГНАЛ В ЖУРНАЛ</button><div id="saveHint" class="status help">Сначала сделай анализ.</div></div>
-
-<div class="card"><div class="brand" style="font-size:21px">📊 Накопительная статистика</div><div class="stats" style="margin-top:10px"><div class="stat"><b id="total">0</b><span>ВСЕГО</span></div><div class="stat"><b id="wins" class="win">0</b><span>WIN</span></div><div class="stat"><b id="losses" class="loss">0</b><span>LOSS</span></div><div class="stat"><b id="overallRate" class="rate">—</b><span>WIN RATE</span></div></div><div class="status" style="margin-top:10px">Записи только добавляются. Никакие новые сигналы не затирают старые. Журнал хранится в Safari на этом iPhone.</div></div>
-
-<div class="card"><div class="brand" style="font-size:21px">🌐 OTC-пары</div><div class="status">Список основан на официальном OTC-разделе Pocket Option; доступные активы и выплаты могут меняться.</div><div id="pairStats" style="margin-top:9px"></div></div>
-
-<div class="card"><div class="brand" style="font-size:21px">📒 Журнал</div><div class="filters"><select id="filterPair"><option value="ALL">Все пары</option></select><select id="filterResult"><option value="ALL">Все результаты</option><option value="PENDING">Ожидает</option><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select></div><div class="toolbar"><button id="export" class="secondary">📥 CSV</button><button id="exportJson" class="secondary">💾 JSON</button><button id="clear" class="danger">🗑 Очистить</button></div><div id="journal" style="margin-top:10px"></div><div class="pager"><button id="prev" class="secondary">← Назад</button><span id="pageInfo" class="pill">1 / 1</span><button id="next" class="secondary">Вперёд →</button></div></div>
-
-<div class="foot">V7 работает локально в Safari. Она не подключается к аккаунту Pocket Option и не совершает сделки автоматически. Статистика считается только по тем WIN/LOSS, которые ты сам отметил.</div>
+<div class="card">
+<h2>Параметры</h2>
+<label>API key Twelve Data<input id="apiKey" type="password" placeholder="Ваш API key"></label>
+<div class="actions"><button id="connectBtn">ПОДКЛЮЧИТЬ</button><button id="disconnectBtn" class="secondary">ОТКЛЮЧИТЬ</button></div>
+<label>Таймфрейм<select id="timeframe"><option value="1min">M1</option><option value="5min">M5</option><option value="15min">M15</option></select></label>
+<label>Минимальный Score: <b id="thresholdValue">75</b><input id="threshold" type="range" min="60" max="95" value="75"></label>
+<label>Экспирация<select id="expiry"><option value="60">60 секунд</option><option value="300">5 минут</option><option value="900">15 минут</option></select></label>
+<p class="muted small">V7 только анализирует рынок и фиксирует сигналы. Автоматическая отправка ордеров в Pocket Option не выполняется.</p>
 </div>
-<script>
-const OTC_PAIRS=[
-'AUD/CAD OTC','AUD/CHF OTC','AUD/JPY OTC','AUD/NZD OTC','AUD/USD OTC','CAD/CHF OTC','CAD/JPY OTC','CHF/JPY OTC','CHF/NOK OTC','EUR/AUD OTC','EUR/CAD OTC','EUR/CHF OTC','EUR/GBP OTC','EUR/HUF OTC','EUR/JPY OTC','EUR/NZD OTC','EUR/RUB OTC','EUR/TRY OTC','EUR/USD OTC','GBP/AUD OTC','GBP/CAD OTC','GBP/CHF OTC','GBP/JPY OTC','GBP/USD OTC','LBP/USD OTC','NZD/JPY OTC','NZD/USD OTC','USD/ARS OTC','USD/BDT OTC','USD/BRL OTC','USD/CHF OTC','USD/CLP OTC','USD/CNH OTC','USD/COP OTC','USD/DZD OTC','USD/EGP OTC','USD/IDR OTC','USD/INR OTC','USD/MXN OTC','USD/MYR OTC','USD/PKR OTC','USD/PHP OTC','USD/RUB OTC','USD/SGD OTC','USD/THB OTC','USD/VND OTC','YER/USD OTC','ZAR/USD OTC','AED/CNY OTC','BHD/CNY OTC','JOD/CNY OTC','KES/USD OTC','MAD/USD OTC','NGN/USD OTC','OMR/CNY OTC','QAR/CNY OTC','SAR/CNY OTC','TND/USD OTC','UAH/USD OTC'
-];
-const $=id=>document.getElementById(id);const KEY='entrypoint_ai_v7_journal';let img=null,lastSignal=null,page=1;const PAGE_SIZE=50;
-function load(){try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
-function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function done(a){return a.filter(x=>x.result==='WIN'||x.result==='LOSS')}
-function pct(w,l){const n=w+l;return n?Math.round(w/n*100):null}
-function fillPairs(){$('pair').innerHTML=OTC_PAIRS.map(p=>`<option>${esc(p)}</option>`).join('');$('filterPair').innerHTML='<option value="ALL">Все пары</option>'+OTC_PAIRS.map(p=>`<option>${esc(p)}</option>`).join('')}
-function empirical(a,pair,tf,signal){const exact=done(a.filter(x=>x.pair===pair&&x.tf===tf&&x.signal===signal));const pd=done(a.filter(x=>x.pair===pair&&x.signal===signal));const p=done(a.filter(x=>x.pair===pair));
- const calc=(arr)=>{const w=arr.filter(x=>x.result==='WIN').length,l=arr.length-w;return {n:arr.length,w,l,rate:(w+3)/(arr.length+6)}};
- const e=calc(exact),d=calc(pd),b=calc(p);return {exact:e,dir:d,pair:b};}
-function learnedConfidence(raw,stats){let prior=0.5,weight=0;if(stats.exact.n){prior=stats.exact.rate;weight=Math.min(stats.exact.n/30,1)*0.65}else if(stats.dir.n){prior=stats.dir.rate;weight=Math.min(stats.dir.n/40,1)*0.48}else if(stats.pair.n){prior=stats.pair.rate;weight=Math.min(stats.pair.n/50,1)*0.35}let r=raw/100;let out=r*(1-weight)+prior*weight;return Math.round(out*100)}
-function renderLearning(pair,tf,signal,raw){if(!signal){$('learnSample').textContent='0 сделок';$('learnRate').textContent='—';$('learnConf').textContent='—';$('learnBar').style.width='0%';return}const s=empirical(load(),pair,tf,signal),e=s.exact;let chosen=e.n?s.exact:s.dir.n?s.dir:s.pair;const lc=learnedConfidence(raw,s);$('learnSample').textContent=chosen.n+' сделок';$('learnRate').textContent=chosen.n?pct(chosen.w,chosen.l)+'%':'—';$('learnConf').textContent=lc+'%';$('learnBar').style.width=lc+'%'}
-function render(){const a=load(),d=done(a),wins=d.filter(x=>x.result==='WIN').length,losses=d.length-wins;$('total').textContent=a.length;$('wins').textContent=wins;$('losses').textContent=losses;$('overallRate').textContent=d.length?Math.round(wins/d.length*100)+'%':'—';
- const by={};OTC_PAIRS.forEach(p=>by[p]={w:0,l:0,p:0});a.forEach(x=>{if(!by[x.pair])by[x.pair]={w:0,l:0,p:0};if(x.result==='WIN')by[x.pair].w++;else if(x.result==='LOSS')by[x.pair].l++;else by[x.pair].p++});
- const keys=Object.keys(by);$('pairStats').innerHTML='<div class="table"><div class="tr head"><div>Пара</div><div>WIN</div><div>LOSS</div><div>RATE</div><div>ОЖИД.</div></div>'+keys.map(p=>{const q=by[p],r=pct(q.w,q.l);return `<div class="tr"><div><b>${esc(p)}</b></div><div class="win"><b>${q.w}</b></div><div class="loss"><b>${q.l}</b></div><div><b>${r===null?'—':r+'%'}</b></div><div class="pending"><b>${q.p}</b></div></div>`}).join('')+'</div>';
- const fp=$('filterPair').value,fr=$('filterResult').value;let list=a.filter(x=>(fp==='ALL'||x.pair===fp)&&(fr==='ALL'||x.result===fr));const pages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));page=Math.min(page,pages);const start=(page-1)*PAGE_SIZE;const view=list.slice().reverse().slice(start,start+PAGE_SIZE);$('pageInfo').textContent=page+' / '+pages;$('prev').disabled=page<=1;$('next').disabled=page>=pages;
- $('journal').innerHTML=view.length?view.map(x=>`<div class="entry"><div class="entrytop"><div><b>${x.signal==='BUY'?'🟢 BUY':'🔴 SELL'} • ${esc(x.pair)}</b><div class="entrymeta">${esc(x.tf)} • Raw ${esc(x.raw??x.conf)}% • Learned ${esc(x.learned??x.conf)}% • ${esc(x.time)}</div></div><div class="${x.result==='WIN'?'win':x.result==='LOSS'?'loss':'pending'}"><b>${x.result==='WIN'?'WIN':x.result==='LOSS'?'LOSS':'ОЖИДАЕТ'}</b></div></div>${x.result==='PENDING'?`<div class="entryactions"><button class="small win" onclick="setResult('${x.id}','WIN')">✓ WIN</button><button class="small danger" onclick="setResult('${x.id}','LOSS')">✕ LOSS</button></div>`:''}</div>`).join(''):'<div class="empty">Нет записей по выбранному фильтру.</div>';
-}
-window.setResult=(id,result)=>{const a=load(),x=a.find(z=>z.id===id);if(!x)return;x.result=result;x.closedAt=new Date().toLocaleString('ru-RU');save(a);render();renderLearning($('pair').value,$('tf').value,lastSignal?.signal,lastSignal?.raw)};
-$('filterPair').onchange=()=>{page=1;render()};$('filterResult').onchange=()=>{page=1;render()};$('prev').onclick=()=>{page--;render()};$('next').onclick=()=>{page++;render()};
-$('photo').onchange=e=>{const f=e.target.files?.[0];if(!f)return;img=new Image();img.onload=()=>{$('preview').src=img.src;$('preview').classList.remove('hidden');$('analyze').disabled=false;$('status').textContent='Скрин загружен. Нажми «Анализировать».'};img.src=URL.createObjectURL(f)};
-function analyzeImage(){if(!img)return;const maxW=1000,scale=Math.min(1,maxW/img.naturalWidth),w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale));const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(img,0,0,w,h);const data=x.getImageData(0,0,w,h).data;let green=0,red=0,samples=0;for(let y=Math.floor(h*.16);y<Math.floor(h*.80);y+=2){for(let xx=0;xx<w;xx+=2){const i=(y*w+xx)*4,r=data[i],g=data[i+1],b=data[i+2];if(g>r*1.22&&g>b*1.04&&g>75){green++;samples++}else if(r>g*1.30&&r>b*1.15&&r>95){red++;samples++}}}const total=green+red,gp=total?green/total:.5,bias=(gp-.5)*2;let signal=bias>.15?'BUY':bias<-.15?'SELL':'NO TRADE';let raw=Math.round(Math.min(.86,.55+Math.abs(bias)*.58)*100);const pair=$('pair').value,tf=$('tf').value;const stats=signal==='NO TRADE'?null:empirical(load(),pair,tf,signal);let learned=signal==='NO TRADE'?0:learnedConfidence(raw,stats);if(signal!=='NO TRADE'&&stats.exact.n>=8&&learned<56)signal='NO TRADE';const quality=Math.round(Math.max(.35,Math.min(.95,total/Math.max(1,samples*.06)))*100);$('sig').textContent=signal;$('arrow').textContent=signal==='BUY'?'↑':signal==='SELL'?'↓':'—';$('arrow').className='arrow '+(signal==='BUY'?'buy':signal==='SELL'?'sell':'none');$('conf').textContent='Confidence: '+(signal==='NO TRADE'?learned||raw:learned)+'%';$('trend').textContent=bias>.08?'ВОСХОДЯЩИЙ':bias<-.08?'НИСХОДЯЩИЙ':'БОКОВИК';$('mom').textContent=Math.abs(bias)>.28?'СИЛЬНЫЙ':Math.abs(bias)>.12?'СРЕДНИЙ':'СЛАБЫЙ';$('green').textContent=Math.round(gp*100)+'%';$('red').textContent=Math.round((1-gp)*100)+'%';$('score').textContent=signal==='NO TRADE'?'НЕ ВХОДИТЬ':signal+' / '+(learned||raw)+'%';$('quality').textContent=quality+'%';$('status').textContent='Анализ завершён локально: '+new Date().toLocaleTimeString('ru-RU');lastSignal=signal==='NO TRADE'?null:{signal,raw,learned:learned||raw,pair,tf,time:new Date().toLocaleString('ru-RU')};$('saveSignal').disabled=!lastSignal;$('saveHint').textContent=lastSignal?'Можно сохранить сигнал. После сделки отметь WIN или LOSS.':'NO TRADE не сохраняется.';renderLearning(pair,tf,lastSignal?.signal,raw)}
-$('analyze').onclick=analyzeImage;
-$('saveSignal').onclick=()=>{if(!lastSignal)return;const a=load();a.push({...lastSignal,id:Date.now().toString(36)+'-'+crypto.getRandomValues(new Uint32Array(2)).join('-'),result:'PENDING'});save(a);render();$('saveSignal').disabled=true;$('saveHint').textContent='Сигнал добавлен в накопительный журнал. Можно сделать следующий анализ — старые записи сохраняются.'};
-$('clear').onclick=()=>{if(!load().length)return;if(confirm('Удалить весь журнал и статистику V7?')){localStorage.removeItem(KEY);render();renderLearning($('pair').value,$('tf').value,lastSignal?.signal,lastSignal?.raw)}};
-$('export').onclick=()=>{const a=load();if(!a.length){alert('Журнал пуст.');return}const head=['ID','Дата','Пара','TF','Сигнал','Raw Confidence','Learned Confidence','Результат','Закрыто'];const rows=a.map(x=>[x.id,x.time,x.pair,x.tf,x.signal,x.raw,x.learned,x.result,x.closedAt||'']);const csv=[head,...rows].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='entrypoint-ai-v7-journal.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-$('exportJson').onclick=()=>{const a=load();if(!a.length){alert('Журнал пуст.');return}const blob=new Blob([JSON.stringify(a,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='entrypoint-ai-v7-journal.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-fillPairs();render();
-</script></body></html>
+
+<div class="card">
+<h2>Статистика</h2>
+<div class="stats">
+<div>Сделок<b id="total">0</b></div><div>OPEN<b id="open">0</b></div>
+<div class="win">WIN<b id="wins">0</b></div><div class="loss">LOSS<b id="losses">0</b></div>
+<div>WIN RATE<b id="rate">0%</b></div>
+</div>
+</div>
+</section>
+
+<section id="screen-scanner" class="screen">
+<div class="card"><h2>Сканер</h2><div id="ranking"></div></div>
+<div class="card"><h2>Пары</h2><div id="pairs"></div></div>
+</section>
+
+<section id="screen-journal" class="screen">
+<div class="card"><h2>Журнал сделок</h2>
+<div class="filters">
+<button data-filter="ALL" class="active">Все</button><button data-filter="OPEN">OPEN</button><button data-filter="WIN">WIN</button><button data-filter="LOSS">LOSS</button>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Время</th><th>Пара</th><th>Напр.</th><th>Score</th><th>Вход</th><th>Выход</th><th>Результат</th></tr></thead><tbody id="journal"></tbody></table></div>
+<div class="actions"><button id="exportBtn">ЭКСПОРТ CSV</button><button id="clearBtn" class="danger">ОЧИСТИТЬ</button></div>
+</div>
+</section>
+
+<section id="screen-stats" class="screen">
+<div class="card"><h2>Статистика по парам</h2><div id="pairStats"></div></div>
+<div class="card"><h2>По Score</h2><div id="scoreStats"></div></div>
+</section>
+
+<section id="screen-settings" class="screen">
+<div class="card"><h2>Настройки</h2>
+<p class="muted">История и настройки сохраняются локально в Safari. При очистке данных сайта журнал может быть потерян, поэтому используй экспорт CSV.</p>
+<button id="resetBtn" class="secondary">СБРОСИТЬ НАСТРОЙКИ</button>
+</div></section>
+</main>
+</div>
+
+<nav class="nav">
+<button class="active" data-screen="signal">📊<span>Сигнал</span></button>
+<button data-screen="scanner">🔎<span>Сканер</span></button>
+<button data-screen="journal">📖<span>Журнал</span></button>
+<button data-screen="stats">📈<span>Статистика</span></button>
+<button data-screen="settings">⚙️<span>Настройки</span></button>
+</nav>
+<script src="app.js"></script>
+</body>
+</html>
